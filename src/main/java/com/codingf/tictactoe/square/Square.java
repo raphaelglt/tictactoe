@@ -1,13 +1,13 @@
 package com.codingf.tictactoe.square;
 
 public class Square {
-    private String player = null;
+    private int player = 0;
 
-    public String getPlayer() {
+    public int getPlayer() {
         return player;
     }
 
-    public void setPlayer(String player) {
+    public void setPlayer(int player) {
         this.player = player;
     }
 }
