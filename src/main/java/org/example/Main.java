@@ -14,14 +14,17 @@ public class Main {
                 }
             }
         }
-        if(numberOfUntaken==0) return false;
+       if(numberOfUntaken==0) {
+            System.out.println("Fin de partie : toutes les places sont prises");
+            return false;
+        }
 
 
-        //vérifie les colonnes
-        for (int i = 1; i<boardSize; i++) {
+        //vérifie les lignes
+        for (int i = 0; i<boardSize; i++) {
             int numberOfSame = 0;
-            for (int j = 0; j<boardSize; j++) {
-                if (board.getBoard().get(i).get(j).getPlayer() == board.getBoard().get(i-1).get(j).getPlayer() && board.getBoard().get(i).get(j).getPlayer() != 0) {
+            for (int j = 0; j<boardSize-1; j++) {
+                if (board.getBoard().get(i).get(j).getPlayer() == board.getBoard().get(i).get(j+1).getPlayer() && board.getBoard().get(i).get(j).getPlayer() != 0) {
                     numberOfSame++;
                 }
             }
@@ -29,11 +32,11 @@ public class Main {
         }
 
 
-        //vérifie les lignes
+        //vérifie les colonnes
         for (int i = 0; i<boardSize; i++) {
             int numberOfSame = 0;
-            for (int j = 1; j<boardSize; j++) {
-                if (board.getBoard().get(i).get(j).getPlayer() == board.getBoard().get(i).get(j-1).getPlayer() && board.getBoard().get(i).get(j).getPlayer() != 0) {
+            for (int j = 0; j<boardSize-1; j++) {
+                if (board.getBoard().get(j).get(i).getPlayer() == board.getBoard().get(j+1).get(i).getPlayer() && board.getBoard().get(j).get(i).getPlayer() != 0) {
                     numberOfSame++;
                 }
             }
@@ -55,13 +58,14 @@ public class Main {
         numberOfSame = 0;
         int boardLengthSize = boardSize-1;
         for (int i = 0; i<boardSize; i++) {
+            System.out.println(i+" "+(boardLengthSize-i));
             if (board.getBoard().get(i).get(boardLengthSize-i).getPlayer() == board.getBoard().get(boardLengthSize-i).get(i).getPlayer() && board.getBoard().get(boardLengthSize-i).get(i).getPlayer() != 0) {
-
                 numberOfSame++;
             }
         }
         return numberOfSame != boardSize;
     }
+
     public static void main(String[] args) {
         Scanner boardSize = new Scanner(System.in);
         System.out.println("Please enter the board size ");
