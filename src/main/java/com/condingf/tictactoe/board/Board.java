@@ -18,7 +18,6 @@ public class Board {
             }
             this.board.add(line);
         }
-        System.out.println(this.board+" "+this.board.size()+" "+this.board.get(0).size());
     }
 
 

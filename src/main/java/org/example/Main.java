@@ -1,8 +1,40 @@
 package org.example;
 import com.condingf.tictactoe.board.Board;
 
+import java.util.Objects;
+import java.util.Random;
 import java.util.Scanner;
 public class Main {
+    static int rounds = 1;
+    static boolean play = true;
+
+    private static int getRandomNumberUsingNextInt(int max) {
+        Random random = new Random();
+        return random.nextInt(max);
+    }
+
+    private static void selectRandomPlace (Board board, int actualPlayer) {
+        int randomX = getRandomNumberUsingNextInt(board.getBoard().size());
+        int randomY = getRandomNumberUsingNextInt(board.getBoard().size());
+        while (board.getBoard().get(randomY).get(randomX).getPlayer() != 0) {
+            randomX = getRandomNumberUsingNextInt(board.getBoard().size());
+            randomY = getRandomNumberUsingNextInt(board.getBoard().size());
+        }
+        board.getBoard().get(randomY).get(randomX).setPlayer(actualPlayer);
+    }
+
+    private static void endOfTurn(Board board, int ent, int actualPlayer) {
+        rounds+=1;
+        System.out.println(board);
+        play = endOfGameCheck(ent, board);
+        if (actualPlayer == 1) {
+            board.setTurnOfPlayer(2);
+        } else if (actualPlayer == 2) {
+            board.setTurnOfPlayer(1);
+        } else {
+            System.out.println("Player's number unknown");
+        }
+    }
 
     private static boolean endOfGameCheck(int boardSize, Board board) {
         //regarde si toutes les cases sont prises
@@ -28,7 +60,10 @@ public class Main {
                     numberOfSame++;
                 }
             }
-           if (numberOfSame+1 == boardSize) return false;
+            if (numberOfSame+1 == boardSize) {
+                System.out.println("Player "+board.getTurnOfPlayer()+" is the tic TaC TOE monster !");
+                return false;
+            }
         }
 
 
@@ -40,18 +75,24 @@ public class Main {
                     numberOfSame++;
                 }
             }
-            if (numberOfSame+1 == boardSize) return false;
+            if (numberOfSame+1 == boardSize) {
+                System.out.println("Player "+board.getTurnOfPlayer()+" is the tic TaC TOE monster !");
+                return false;
+            }
         }
 
 
         //vérifie la diagonale gauche
         int numberOfSame = 0;
         for (int i = 0; i<boardSize-1; i++) {
-            if (board.getBoard().get(i).get(i).getPlayer() == board.getBoard().get(i).get(i+1).getPlayer() && board.getBoard().get(i).get(i).getPlayer() != 0) {
+            if (board.getBoard().get(i).get(i).getPlayer() == board.getBoard().get(i+1).get(i+1).getPlayer() && board.getBoard().get(i).get(i).getPlayer() != 0) {
                 numberOfSame++;
             }
         }
-        if (numberOfSame+1 == boardSize) return false;
+        if (numberOfSame+1 == boardSize) {
+            System.out.println("Player "+board.getTurnOfPlayer()+" is the tic TaC TOE monster !");
+            return false;
+        }
 
 
         //vérifie la diagonale droite
@@ -62,69 +103,92 @@ public class Main {
                 numberOfSame++;
             }
         }
-        return numberOfSame != boardSize;
+        if (numberOfSame == boardSize) {
+            System.out.println("Player "+board.getTurnOfPlayer()+" is the tic TaC TOE monster !");
+            return false;
+        }
+        return true;
     }
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        boolean validation = false;
-        int ent = 0;
-        while (validation == false) {
-            System.out.println("Please enter the board size ");
-            ent = input.nextInt();
-            if (ent < 3 || ent > 10) {
-                System.out.println("Please enter number between 3 and 10");
-            } else {
-                System.out.println("Enjoy dear");
-                validation = true;
+        boolean replay = true;
+        while (replay) {
+            boolean isNumberOfPlayersGiven = false;
+            int numberOfPlayers;
+            System.out.println("Please enter the number of players (1 or 2) :");
+            String numberOfPlayersInput = input.next();
+            try {
+                numberOfPlayers = Integer.parseInt(numberOfPlayersInput);
+                if (numberOfPlayers != 1 && numberOfPlayers != 2) {
+                    continue;
+                }
+            } catch (Exception e) {
+                continue;
             }
-        }
 
-        Board board = new Board(ent);
-        boolean play = true;
-        int actualPlayer = 1;
-        while (play) {
-            boolean validPlacement = false;
-            while (validPlacement == false) {
-                boolean validLine = false;
-                int numLine = 0;
-                while (validLine == false) {
-                    System.out.println("Which Line ? : ");
-                    numLine = input.nextInt();
-                    if (numLine < 0 || numLine >= ent) {
-                        System.out.println("Take a line between 0 and " + ent);
-                    } else {
-                        validLine = true;
-                    }
+            boolean validation = false;
+            int ent = 0;
+            while (!validation) {
+                System.out.println("Please enter the board size (between 3 and 10 included) :");
+                ent = input.nextInt();
+                if (ent < 3 || ent > 10) {
+                    System.out.println("Please enter number between 3 and 10");
+                } else {
+                    System.out.println("Enjoy dear");
+                    validation = true;
                 }
+            }
 
+            Board board = new Board(ent);
+            System.out.println(board);
+            while (play) {
+                System.out.println("Round "+rounds+" "+" player's " + board.getTurnOfPlayer() + " turn");
+                if (numberOfPlayers == 2 || rounds%2 == 1) {
+                    boolean validPlacement = false;
+                    while (!validPlacement) {
+                        boolean validLine = false;
+                        int numLine = 0;
+                        while (!validLine) {
+                            System.out.println("Which line ? : ");
+                            numLine = input.nextInt();
+                            if (numLine < 0 || numLine >= ent) {
+                                System.out.println("Take a line between 0 and " + ent);
+                            } else {
+                                validLine = true;
+                            }
+                        }
 
-                boolean validColumn = false;
-                int numColumn = 0;
-                while (validColumn == false) {
-                    System.out.println("Which column ? : ");
-                    numColumn = input.nextInt();
-                    if (numColumn < 0 || numColumn >= ent) {
-                        System.out.println("Take a column between 0 and " + ent);
-                    } else {
-                        validColumn = true;
+                        boolean validColumn = false;
+                        int numColumn = 0;
+                        while (!validColumn) {
+                            System.out.println("Which column ? : ");
+                            numColumn = input.nextInt();
+                            if (numColumn < 0 || numColumn >= ent) {
+                                System.out.println("Take a column between 0 and " + ent);
+                            } else {
+                                validColumn = true;
+                            }
+                        }
+                        if (board.getBoard().get(numLine).get(numColumn).getPlayer() != 0) {
+                            System.out.println("There is already something on this square");
+                        } else {
+                            int actualPlayer = board.getTurnOfPlayer();
+                            validPlacement=true;
+                            board.getBoard().get(numLine).get(numColumn).setPlayer(actualPlayer);
+                            endOfTurn(board, ent, actualPlayer);
+                        }
                     }
+                } else {
+                    int actualPlayer = board.getTurnOfPlayer();
+                    selectRandomPlace(board, actualPlayer);
+                    endOfTurn(board, ent, actualPlayer);
                 }
-                if (board.getBoard().get(numLine).get(numColumn).getPlayer() != 0){
-                    System.out.println("There is already something on this square");
-                }
-                else{
-                    board.getBoard().get(numLine).get(numColumn).setPlayer(actualPlayer);
-                    System.out.println(board);
-                    if (actualPlayer == 1) {
-                        actualPlayer = 2;
-                    } else if (actualPlayer == 2) {
-                        actualPlayer = 1;
-                    } else {
-                        System.out.println("Player's number unknown");
-                    }
-                    validPlacement = true;
-                }
+            }
+            System.out.println("Do you want to replay ? (y/n) : ");
+            String wantToReplay = input.next();
+            if (!Objects.equals(wantToReplay, "y")) {
+                replay = false;
             }
         }
     }
