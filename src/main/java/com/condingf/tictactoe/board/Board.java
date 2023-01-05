@@ -47,4 +47,8 @@ public class Board {
     public void setTurnOfPlayer(int turnOfPlayer) {
         this.turnOfPlayer = turnOfPlayer;
     }
+
+    public ArrayList<ArrayList<Square>> getBoard() {
+        return board;
+    }
 };
