@@ -28,7 +28,7 @@ public class Main {
                     numberOfSame++;
                 }
             }
-            if (numberOfSame+1 == boardSize) return false;
+           if (numberOfSame+1 == boardSize) return false;
         }
 
 
@@ -51,7 +51,7 @@ public class Main {
                 numberOfSame++;
             }
         }
-        if (numberOfSame == boardSize) return false;
+        if (numberOfSame+1 == boardSize) return false;
 
 
         //vérifie la diagonale droite

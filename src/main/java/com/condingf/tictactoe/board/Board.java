@@ -25,7 +25,13 @@ public class Board {
     @Override
     public String toString() {
         StringBuilder returnString = new StringBuilder();
+        returnString.append("   ");
+        for (int i = 0; i<this.board.get(0).size(); i++) {
+            returnString.append(" ").append(i).append(" ");
+        }
+        returnString.append("\n");
         for (int i = 0; i<this.board.size(); i++) {
+            returnString.append(" ").append(i).append(" ");
             for (int j = 0; j<this.board.get(0).size(); j++) {
                 if (this.board.get(i).get(j).getPlayer() == 0) {
                     returnString.append("[-]");
