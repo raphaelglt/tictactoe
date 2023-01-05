@@ -114,7 +114,6 @@ public class Main {
         Scanner input = new Scanner(System.in);
         boolean replay = true;
         while (replay) {
-            boolean isNumberOfPlayersGiven = false;
             int numberOfPlayers;
             System.out.println("Please enter the number of players (1 or 2) :");
             String numberOfPlayersInput = input.next();
@@ -128,15 +127,20 @@ public class Main {
             }
 
             boolean validation = false;
-            int ent = 0;
+            int ent = 3;
             while (!validation) {
                 System.out.println("Please enter the board size (between 3 and 10 included) :");
-                ent = input.nextInt();
-                if (ent < 3 || ent > 10) {
-                    System.out.println("Please enter number between 3 and 10");
-                } else {
-                    System.out.println("Enjoy dear");
-                    validation = true;
+                String entInput = input.next();
+                try {
+                    ent = Integer.parseInt(entInput);
+                    if (ent < 3 || ent > 10) {
+                        System.out.println("Please enter number between 3 and 10");
+                    } else {
+                        System.out.println("Enjoy dear");
+                        validation = true;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Please enter a number !");
                 }
             }
 
