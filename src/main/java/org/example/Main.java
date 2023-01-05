@@ -147,7 +147,7 @@ public class Main {
             Board board = new Board(ent);
             System.out.println(board);
             while (play) {
-                System.out.println("Round "+rounds+" "+" player's " + board.getTurnOfPlayer() + " turn");
+                System.out.println("Round "+rounds+" player's " + board.getTurnOfPlayer() + " turn");
                 if (numberOfPlayers == 2 || rounds%2 == 1) {
                     boolean validPlacement = false;
                     while (!validPlacement) {
@@ -157,7 +157,7 @@ public class Main {
                             System.out.println("Which line ? : ");
                             numLine = input.nextInt();
                             if (numLine < 0 || numLine >= ent) {
-                                System.out.println("Take a line between 0 and " + ent);
+                                System.out.println("Take a line between 0 and " + (ent-1));
                             } else {
                                 validLine = true;
                             }
@@ -169,7 +169,7 @@ public class Main {
                             System.out.println("Which column ? : ");
                             numColumn = input.nextInt();
                             if (numColumn < 0 || numColumn >= ent) {
-                                System.out.println("Take a column between 0 and " + ent);
+                                System.out.println("Take a column between 0 and " + (ent-1));
                             } else {
                                 validColumn = true;
                             }
@@ -193,6 +193,9 @@ public class Main {
             String wantToReplay = input.next();
             if (!Objects.equals(wantToReplay, "y")) {
                 replay = false;
+            } else {
+                rounds = 1;
+                play = true;
             }
         }
     }
