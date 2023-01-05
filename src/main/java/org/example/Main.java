@@ -1,7 +1,6 @@
 package org.example;
 import com.condingf.tictactoe.board.Board;
 
-import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 public class Main {
@@ -24,7 +23,6 @@ public class Main {
     }
 
     private static void endOfTurn(Board board, int ent, int actualPlayer) {
-        System.out.println("eof");
         rounds+=1;
         System.out.println(board);
         play = endOfGameCheck(ent, board);
@@ -203,7 +201,7 @@ public class Main {
             }
             System.out.println("Do you want to replay ? (y/n) : ");
             String wantToReplay = input.next();
-            if (!Objects.equals(wantToReplay, "y")) {
+            if (!wantToReplay.toLowerCase().equals("y")) {
                 replay = false;
             } else {
                 rounds = 1;
