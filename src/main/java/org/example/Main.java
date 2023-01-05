@@ -58,7 +58,6 @@ public class Main {
         numberOfSame = 0;
         int boardLengthSize = boardSize-1;
         for (int i = 0; i<boardSize; i++) {
-            System.out.println(i+" "+(boardLengthSize-i));
             if (board.getBoard().get(i).get(boardLengthSize-i).getPlayer() == board.getBoard().get(boardLengthSize-i).get(i).getPlayer() && board.getBoard().get(boardLengthSize-i).get(i).getPlayer() != 0) {
                 numberOfSame++;
             }
