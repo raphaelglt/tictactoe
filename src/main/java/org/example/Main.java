@@ -24,6 +24,7 @@ public class Main {
     }
 
     private static void endOfTurn(Board board, int ent, int actualPlayer) {
+        System.out.println("eof");
         rounds+=1;
         System.out.println(board);
         play = endOfGameCheck(ent, board);
@@ -147,19 +148,24 @@ public class Main {
             Board board = new Board(ent);
             System.out.println(board);
             while (play) {
-                System.out.println("Round "+rounds+" player's " + board.getTurnOfPlayer() + " turn");
-                if (numberOfPlayers == 2 || rounds%2 == 1) {
+                System.out.println("Round " + rounds + " player's " + board.getTurnOfPlayer() + " turn");
+                if (numberOfPlayers == 2 || rounds % 2 == 1) {
                     boolean validPlacement = false;
                     while (!validPlacement) {
                         boolean validLine = false;
                         int numLine = 0;
                         while (!validLine) {
                             System.out.println("Which line ? : ");
-                            numLine = input.nextInt();
-                            if (numLine < 0 || numLine >= ent) {
-                                System.out.println("Take a line between 0 and " + (ent-1));
-                            } else {
-                                validLine = true;
+                            String numLineInput = input.next();
+                            try {
+                                numLine = Integer.parseInt(numLineInput);
+                                if (numLine < 0 || numLine >= ent) {
+                                    System.out.println("Take a line between 0 and " + (ent - 1));
+                                } else {
+                                    validLine = true;
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Please enter a valid number");
                             }
                         }
 
@@ -167,18 +173,24 @@ public class Main {
                         int numColumn = 0;
                         while (!validColumn) {
                             System.out.println("Which column ? : ");
-                            numColumn = input.nextInt();
-                            if (numColumn < 0 || numColumn >= ent) {
-                                System.out.println("Take a column between 0 and " + (ent-1));
-                            } else {
-                                validColumn = true;
+                            String numColumnInput = input.next();
+                            try {
+                                numColumn = Integer.parseInt(numColumnInput);
+                                if (numColumn < 0 || numColumn >= ent) {
+                                    System.out.println("Take a column between 0 and " + (ent - 1));
+                                } else {
+                                    validColumn = true;
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Please enter a valid number");
                             }
                         }
+
                         if (board.getBoard().get(numLine).get(numColumn).getPlayer() != 0) {
                             System.out.println("There is already something on this square");
                         } else {
                             int actualPlayer = board.getTurnOfPlayer();
-                            validPlacement=true;
+                            validPlacement = true;
                             board.getBoard().get(numLine).get(numColumn).setPlayer(actualPlayer);
                             endOfTurn(board, ent, actualPlayer);
                         }
