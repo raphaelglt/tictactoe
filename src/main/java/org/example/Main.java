@@ -5,15 +5,19 @@ import javax.sound.sampled.Line;
 import java.util.Random;
 import java.util.Scanner;
 public class Main {
+    //déclaration des variables statiques (accessible depuis tout le code)
     static int rounds = 1;
     static boolean play = true;
+    static Board board;
 
+    //prend un numéro au hasard entre 0 et le nombre passé en paramètre
     private static int getRandomNumberUsingNextInt(int max) {
         Random random = new Random();
         return random.nextInt(max);
     }
 
-    private static void selectRandomPlace (Board board, int actualPlayer) {
+    //place la case au hasard
+    private static void selectRandomPlace (int actualPlayer) {
         int randomX = getRandomNumberUsingNextInt(board.getBoard().size());
         int randomY = getRandomNumberUsingNextInt(board.getBoard().size());
         while (board.getBoard().get(randomY).get(randomX).getPlayer() != 0) {
@@ -23,10 +27,11 @@ public class Main {
         board.getBoard().get(randomY).get(randomX).setPlayer(actualPlayer);
     }
 
-    private static void endOfTurn(Board board, int ent, int actualPlayer) {
+    //incrémente le round, affiche le tableau, vérifie les conditions de fin et change le joueur
+    private static void endOfTurn(int ent, int actualPlayer) {
         rounds+=1;
         System.out.println(board);
-        play = endOfGameCheck(ent, board);
+        play = endOfGameCheck(ent);
         if (actualPlayer == 1) {
             board.setTurnOfPlayer(2);
         } else if (actualPlayer == 2) {
@@ -36,22 +41,8 @@ public class Main {
         }
     }
 
-    private static boolean endOfGameCheck(int boardSize, Board board) {
-        //regarde si toutes les cases sont prises
-        int numberOfUntaken = 0;
-        for (int i = 0; i<boardSize; i++) {
-            for (int j = 0; j<boardSize; j++) {
-                if (board.getBoard().get(i).get(j).getPlayer() == 0) {
-                    numberOfUntaken++;
-                }
-            }
-        }
-       if(numberOfUntaken==0) {
-            System.out.println("Fin de partie : toutes les places sont prises");
-            return false;
-        }
-
-
+    //vérifie les conditions de fin de partie
+    private static boolean endOfGameCheck(int boardSize) {
         //vérifie les lignes
         for (int i = 0; i<boardSize; i++) {
             int numberOfSame = 0;
@@ -107,6 +98,20 @@ public class Main {
             System.out.println("Player "+board.getTurnOfPlayer()+" is the tic TaC TOE monster !");
             return false;
         }
+
+        //regarde si toutes les cases sont prises
+        int numberOfUntaken = 0;
+        for (int i = 0; i<boardSize; i++) {
+            for (int j = 0; j<boardSize; j++) {
+                if (board.getBoard().get(i).get(j).getPlayer() == 0) {
+                    numberOfUntaken++;
+                }
+            }
+        }
+        if(numberOfUntaken==0) {
+            System.out.println("Fin de partie : toutes les places sont prises");
+            return false;
+        }
         return true;
     }
 
@@ -114,7 +119,9 @@ public class Main {
         int numberOfPlayers = 0;
         int ent = 0;
         boolean replay = true;
+        //boucle sur tous les paramètres
         for (int i = 0; i<args.length; i++) {
+            //vérifie le paramètre players s'il est présent
             if (args[i].equals("--players") || args[i].equals("-p")) {
                 try {
                     int numberOfPlayersTemp = Integer.parseInt(args[i+1]);
@@ -129,6 +136,7 @@ public class Main {
                 }
             }
 
+            //vérifie le paramètre size s'il est présent
             if (args[i].equals("--size") || args[i].equals("-s")) {
                 try {
                     int entTemp = Integer.parseInt(args[i+1]);
@@ -143,6 +151,7 @@ public class Main {
                 }
             }
 
+            //affiche l'aide
             if (args[i].equals("--help") || args[i].equals("-h")) {
                 replay = false;
                 System.out.println("Options :\n -p,\t--players\tNumber of players (1 or 2)\n -s,\t--size\t\tSize of the board (between 3 and 10 included)");
@@ -152,15 +161,20 @@ public class Main {
 
         while (replay) {
             if (numberOfPlayers == 0) {
-                System.out.println("Please enter the number of players (1 or 2) :");
-                String numberOfPlayersInput = input.next();
-                try {
-                    numberOfPlayers = Integer.parseInt(numberOfPlayersInput);
-                    if (numberOfPlayers != 1 && numberOfPlayers != 2) {
-                        continue;
+                boolean validNumberOfPlayers = false;
+                while (!validNumberOfPlayers) {
+                    System.out.println("Please enter the number of players (1 or 2) :");
+                    String numberOfPlayersInput = input.next();
+                    try {
+                        numberOfPlayers = Integer.parseInt(numberOfPlayersInput);
+                        if (numberOfPlayers == 1 || numberOfPlayers == 2) {
+                            validNumberOfPlayers = true;
+                        } else {
+                            System.err.println("Please enter a valid number of player");
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Please enter a valid number of player");
                     }
-                } catch (Exception e) {
-                    continue;
                 }
             }
 
@@ -172,18 +186,18 @@ public class Main {
                     try {
                         ent = Integer.parseInt(entInput);
                         if (ent < 3 || ent > 10) {
-                            System.out.println("Please enter number between 3 and 10");
+                            System.err.println("Please enter number between 3 and 10");
                         } else {
                             System.out.println("Enjoy dear");
                             validation = true;
                         }
                     } catch (Exception e) {
-                        System.out.println("Please enter a number !");
+                        System.err.println("Please enter a number !");
                     }
                 }
             }
 
-            Board board = new Board(ent);
+            board = new Board(ent);
             System.out.println(board);
             while (play) {
                 //Affichage du round à chaque tour jusqu'à la fin de la partie
@@ -204,13 +218,13 @@ public class Main {
                                 column = Integer.parseInt(fields[1]);
                                 //vérifie que les coordonnées se situent dans le tableau
                                 if (line < 0 || line >= ent || column < 0 || column >= ent){
-                                    System.out.println("Take a line and a column between 0 and " + (ent - 1));
+                                    System.err.println("Take a line and a column between 0 and " + (ent - 1));
                                 }
                                 else {
                                     validLineColumn = true;
                                 }
                             } catch (Exception e){
-                                System.out.println("Please enter some valid numbers");
+                                System.err.println("Please enter some valid numbers");
                             }
                         }
 
@@ -221,15 +235,16 @@ public class Main {
                             int actualPlayer = board.getTurnOfPlayer();
                             validPlacement = true;
                             board.getBoard().get(line).get(column).setPlayer(actualPlayer);
-                            endOfTurn(board, ent, actualPlayer);
+                            endOfTurn(ent, actualPlayer);
                         }
                     }
                 } else {
                     int actualPlayer = board.getTurnOfPlayer();
-                    selectRandomPlace(board, actualPlayer);
-                    endOfTurn(board, ent, actualPlayer);
+                    selectRandomPlace(actualPlayer);
+                    endOfTurn(ent, actualPlayer);
                 }
             }
+            //propose de rejouer à la fin de la partie
             System.out.println("Do you want to replay ? (y/n) : ");
             String wantToReplay = input.next();
             if (!wantToReplay.toLowerCase().equals("y")) {
