@@ -1,0 +1,1 @@
+java -cp tictactoe-1.0.jar org.example.Main
