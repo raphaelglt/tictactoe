@@ -111,36 +111,75 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        int numberOfPlayers = 0;
+        int ent = 0;
         boolean replay = true;
-        while (replay) {
-            int numberOfPlayers;
-            System.out.println("Please enter the number of players (1 or 2) :");
-            String numberOfPlayersInput = input.next();
-            try {
-                numberOfPlayers = Integer.parseInt(numberOfPlayersInput);
-                if (numberOfPlayers != 1 && numberOfPlayers != 2) {
-                    continue;
-                }
-            } catch (Exception e) {
-                continue;
-            }
-
-            boolean validation = false;
-            int ent = 3;
-            while (!validation) {
-                System.out.println("Please enter the board size (between 3 and 10 included) :");
-                String entInput = input.next();
+        for (int i = 0; i<args.length; i++) {
+            if (args[i].equals("--players") || args[i].equals("-p")) {
                 try {
-                    ent = Integer.parseInt(entInput);
-                    if (ent < 3 || ent > 10) {
-                        System.out.println("Please enter number between 3 and 10");
+                    int numberOfPlayersTemp = Integer.parseInt(args[i+1]);
+                    if (numberOfPlayersTemp == 1 || numberOfPlayersTemp == 2) {
+                        System.out.println("Argument --players is correct");
+                        numberOfPlayers = numberOfPlayersTemp;
                     } else {
-                        System.out.println("Enjoy dear");
-                        validation = true;
+                        System.err.println("Arguments --players isn't 1 nether 2");
                     }
                 } catch (Exception e) {
-                    System.out.println("Please enter a number !");
+                    System.err.println("Argument --player isn't a number");
+                }
+            }
+
+            if (args[i].equals("--size") || args[i].equals("-s")) {
+                try {
+                    int entTemp = Integer.parseInt(args[i+1]);
+                    if (entTemp >= 3 && entTemp <= 10) {
+                        System.out.println("Argument --size is correct");
+                        ent = entTemp;
+                    } else {
+                        System.err.println("Argument --size isn't included between 3 and 10");
+                    }
+                } catch (Exception e) {
+                    System.err.println("Argument --size isn't a number");
+                }
+            }
+
+            if (args[i].equals("--help") || args[i].equals("-h")) {
+                replay = false;
+                System.out.println("Options :\n -p,\t--players\tNumber of players (1 or 2)\n -s,\t--size\t\tSize of the board (between 3 and 10 included)");
+            }
+        }
+        Scanner input = new Scanner(System.in);
+
+        while (replay) {
+            if (numberOfPlayers == 0) {
+                System.out.println("Please enter the number of players (1 or 2) :");
+                String numberOfPlayersInput = input.next();
+                try {
+                    numberOfPlayers = Integer.parseInt(numberOfPlayersInput);
+                    if (numberOfPlayers != 1 && numberOfPlayers != 2) {
+                        continue;
+                    }
+                } catch (Exception e) {
+                    continue;
+                }
+            }
+
+            if (ent == 0) {
+                boolean validation = false;
+                while (!validation) {
+                    System.out.println("Please enter the board size (between 3 and 10 included) :");
+                    String entInput = input.next();
+                    try {
+                        ent = Integer.parseInt(entInput);
+                        if (ent < 3 || ent > 10) {
+                            System.out.println("Please enter number between 3 and 10");
+                        } else {
+                            System.out.println("Enjoy dear");
+                            validation = true;
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Please enter a number !");
+                    }
                 }
             }
 
