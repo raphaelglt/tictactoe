@@ -3,6 +3,7 @@ package org.example;
 import com.condingf.tictactoe.board.Board;
 
 import javax.sound.sampled.Line;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 public class Main {
@@ -262,22 +263,24 @@ public class Main {
                         int line = 0;
                         int column = 0;
                         //Boucle vérifiant le choix des coordonnées du placement du joueur
+                        System.out.println("Which line and column ? : ");
                         while (!validLineColumn) {
-                            System.out.println("Which line and column ? : ");
-                            String lineColumnInput = input.next();
-                            var fields = lineColumnInput.split(",");
-                            try{
-                                line = Integer.parseInt(fields[0]);
-                                column = Integer.parseInt(fields[1]);
-                                //vérifie que les coordonnées se situent dans le tableau
-                                if (line < 0 || line >= ent || column < 0 || column >= ent){
-                                    System.err.println("Take a line and a column between 0 and " + (ent - 1));
+                            String lineColumnInput = input.nextLine();
+                            if (!Objects.equals(lineColumnInput, "")) {
+                                try {
+                                    var fields = lineColumnInput.split(",");
+                                    line = Integer.parseInt(fields[0]);
+                                    column = Integer.parseInt(fields[1]);
+                                    //vérifie que les coordonnées se situent dans le tableau
+                                    if (line < 0 || line >= ent || column < 0 || column >= ent) {
+                                        System.err.println("Take a line and a column between 0 and " + (ent - 1));
+                                    } else {
+                                        validLineColumn = true;
+                                    }
+                                } catch (Exception e) {
+                                    System.err.println("Please enter a valid number ");
+                                    System.out.println("Which line and column ? : ");
                                 }
-                                else {
-                                    validLineColumn = true;
-                                }
-                            } catch (Exception e) {
-                                System.err.println("Please enter a valid number");
                             }
                         }
 
