@@ -281,23 +281,6 @@ public class Main {
                             }
                         }
 
-                        boolean validColumn = false;
-                        int numColumn = 0;
-                        while (!validColumn) {
-                            System.out.println("Which column ? : ");
-                            String numColumnInput = input.next();
-                            try {
-                                numColumn = Integer.parseInt(numColumnInput);
-                                if (numColumn < 0 || numColumn >= ent) {
-                                    System.out.println("Take a column between 0 and " + (ent - 1));
-                                } else {
-                                    validColumn = true;
-                                }
-                            } catch (Exception e) {
-                                System.err.println("Please enter a valid number");
-                            }
-                        }
-
                         // vérifie si la case est déjà prise ou non
                         if (board.getBoard().get(line).get(column).getPlayer() != 0) {
                             System.out.println("There is already something on this square");
