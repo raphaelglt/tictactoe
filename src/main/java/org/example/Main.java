@@ -1,6 +1,7 @@
 package org.example;
 import com.condingf.tictactoe.board.Board;
 
+import javax.sound.sampled.Line;
 import java.util.Random;
 import java.util.Scanner;
 public class Main {
@@ -146,50 +147,41 @@ public class Main {
             Board board = new Board(ent);
             System.out.println(board);
             while (play) {
+                //Affichage du round à chaque tour jusqu'à la fin de la partie
                 System.out.println("Round " + rounds + " player's " + board.getTurnOfPlayer() + " turn");
                 if (numberOfPlayers == 2 || rounds % 2 == 1) {
                     boolean validPlacement = false;
                     while (!validPlacement) {
-                        boolean validLine = false;
-                        int numLine = 0;
-                        while (!validLine) {
-                            System.out.println("Which line ? : ");
-                            String numLineInput = input.next();
-                            try {
-                                numLine = Integer.parseInt(numLineInput);
-                                if (numLine < 0 || numLine >= ent) {
-                                    System.out.println("Take a line between 0 and " + (ent - 1));
-                                } else {
-                                    validLine = true;
+                        boolean validLineColumn = false;
+                        int line = 0;
+                        int column = 0;
+                        //Boucle vérifiant le choix des coordonnées du placement du joueur
+                        while (!validLineColumn) {
+                            System.out.println("Which line and column ? : ");
+                            String lineColumnInput = input.next();
+                            var fields = lineColumnInput.split(",");
+                            try{
+                                line = Integer.parseInt(fields[0]);
+                                column = Integer.parseInt(fields[1]);
+                                //vérifie que les coordonnées se situent dans le tableau
+                                if (line < 0 || line >= ent || column < 0 || column >= ent){
+                                    System.out.println("Take a line and a column between 0 and " + (ent - 1));
                                 }
-                            } catch (Exception e) {
-                                System.out.println("Please enter a valid number");
+                                else {
+                                    validLineColumn = true;
+                                }
+                            } catch (Exception e){
+                                System.out.println("Please enter some valid numbers");
                             }
                         }
 
-                        boolean validColumn = false;
-                        int numColumn = 0;
-                        while (!validColumn) {
-                            System.out.println("Which column ? : ");
-                            String numColumnInput = input.next();
-                            try {
-                                numColumn = Integer.parseInt(numColumnInput);
-                                if (numColumn < 0 || numColumn >= ent) {
-                                    System.out.println("Take a column between 0 and " + (ent - 1));
-                                } else {
-                                    validColumn = true;
-                                }
-                            } catch (Exception e) {
-                                System.out.println("Please enter a valid number");
-                            }
-                        }
-
-                        if (board.getBoard().get(numLine).get(numColumn).getPlayer() != 0) {
+                        // vérifie si la case est déjà prise ou non
+                        if (board.getBoard().get(line).get(column).getPlayer() != 0) {
                             System.out.println("There is already something on this square");
                         } else {
                             int actualPlayer = board.getTurnOfPlayer();
                             validPlacement = true;
-                            board.getBoard().get(numLine).get(numColumn).setPlayer(actualPlayer);
+                            board.getBoard().get(line).get(column).setPlayer(actualPlayer);
                             endOfTurn(board, ent, actualPlayer);
                         }
                     }
