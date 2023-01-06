@@ -77,7 +77,7 @@ public class Main {
                         "     \\$$      \\$$$$$$   \\$$$$$$         \\$$$$$$$ \\$$        \\$$$$$$$          \\$$$$  \\$$   \\$$  \\$$$$$$$       \\$$      \\$$ \\$$ \\$$   \\$$ \\$$   \\$$  \\$$$$$$$ \\$$             \\$$\n" +
                         "                                                                                                                                                                                 \n" +
                         "                                                                                                                                                                                 \n" +
-                        "                                                                                                                                                                                 "+board.getTurnOfPlayer());
+                        "                                                                                                                                                                                 Player "+board.getTurnOfPlayer());
                 return false;
             }
         }
@@ -102,7 +102,7 @@ public class Main {
                         "     \\$$      \\$$$$$$   \\$$$$$$         \\$$$$$$$ \\$$        \\$$$$$$$          \\$$$$  \\$$   \\$$  \\$$$$$$$       \\$$      \\$$ \\$$ \\$$   \\$$ \\$$   \\$$  \\$$$$$$$ \\$$             \\$$\n" +
                         "                                                                                                                                                                                 \n" +
                         "                                                                                                                                                                                 \n" +
-                        "                                                                                                                                                                                 "+board.getTurnOfPlayer());
+                        "                                                                                                                                                                                 Player "+board.getTurnOfPlayer());
                 return false;
             }
         }
@@ -126,7 +126,7 @@ public class Main {
                     "     \\$$      \\$$$$$$   \\$$$$$$         \\$$$$$$$ \\$$        \\$$$$$$$          \\$$$$  \\$$   \\$$  \\$$$$$$$       \\$$      \\$$ \\$$ \\$$   \\$$ \\$$   \\$$  \\$$$$$$$ \\$$             \\$$\n" +
                     "                                                                                                                                                                                 \n" +
                     "                                                                                                                                                                                 \n" +
-                    "                                                                                                                                                                                 "+board.getTurnOfPlayer());
+                    "                                                                                                                                                                                 Player "+board.getTurnOfPlayer());
             return false;
         }
 
@@ -150,7 +150,7 @@ public class Main {
                     "     \\$$      \\$$$$$$   \\$$$$$$         \\$$$$$$$ \\$$        \\$$$$$$$          \\$$$$  \\$$   \\$$  \\$$$$$$$       \\$$      \\$$ \\$$ \\$$   \\$$ \\$$   \\$$  \\$$$$$$$ \\$$             \\$$\n" +
                     "                                                                                                                                                                                 \n" +
                     "                                                                                                                                                                                 \n" +
-                    "                                                                                                                                                                                 "+board.getTurnOfPlayer());
+                    "                                                                                                                                                                                 Player "+board.getTurnOfPlayer());
             return false;
         }
         return true;
